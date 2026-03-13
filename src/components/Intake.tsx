@@ -23,8 +23,8 @@ export default function Intake() {
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="p-10 md:p-16 flex flex-col justify-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amethyst/10 text-amethyst font-semibold text-sm mb-6 w-fit">
-                <ShieldCheck className="w-4 h-4" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amethyst/10 text-amethyst-dark font-semibold text-sm mb-6 w-fit">
+                <ShieldCheck className="w-4 h-4" aria-hidden="true" />
                 Secure Intake Process
               </div>
               <h2 className="text-3xl md:text-4xl font-serif font-bold text-amethyst-dark mb-6">
@@ -62,9 +62,9 @@ export default function Intake() {
                 onClick={() => setIsModalOpen(true)}
                 className="flex items-center justify-center gap-2 bg-amethyst hover:bg-amethyst-dark text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl w-full sm:w-auto"
               >
-                <FileText className="w-5 h-5" />
+                <FileText className="w-5 h-5" aria-hidden="true" />
                 Start Intake Form
-                <ArrowRight className="w-5 h-5 ml-2" />
+                <ArrowRight className="w-5 h-5 ml-2" aria-hidden="true" />
               </button>
             </div>
             
@@ -81,14 +81,14 @@ export default function Intake() {
                 </p>
                 <div className="space-y-4">
                   <a href="tel:18007997233" className="flex items-center gap-4 bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors backdrop-blur-sm">
-                    <PhoneCall className="w-6 h-6 text-gold" />
+                    <PhoneCall className="w-6 h-6 text-gold" aria-hidden="true" />
                     <div>
                       <div className="text-sm text-amethyst-light">National DV Hotline</div>
                       <div className="font-bold text-xl">1-800-799-SAFE</div>
                     </div>
                   </a>
                   <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
-                    <Home className="w-6 h-6 text-gold" />
+                    <Home className="w-6 h-6 text-gold" aria-hidden="true" />
                     <div>
                       <div className="text-sm text-amethyst-light">Location</div>
                       <div className="font-bold">Niagara Falls, NY</div>
@@ -105,14 +105,20 @@ export default function Intake() {
       {/* Intake Form Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 md:p-8 relative my-8">
+          <div 
+            className="bg-white rounded-2xl shadow-xl max-w-2xl w-full p-6 md:p-8 relative my-8"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="intake-modal-title"
+          >
             <button
               onClick={() => { setIsModalOpen(false); setIsSubmitted(false); }}
+              aria-label="Close"
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
             >
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6" aria-hidden="true" />
             </button>
-            <h3 className="text-2xl font-serif font-bold text-amethyst-dark mb-2">
+            <h3 id="intake-modal-title" className="text-2xl font-serif font-bold text-amethyst-dark mb-2">
               Intake Application
             </h3>
             <p className="text-gray-600 mb-6 text-sm">
@@ -121,7 +127,7 @@ export default function Intake() {
             
             {isSubmitted ? (
               <div className="bg-olive/10 border border-olive/20 rounded-xl p-6 text-center">
-                <ShieldCheck className="w-12 h-12 text-olive mx-auto mb-4" />
+                <ShieldCheck className="w-12 h-12 text-olive mx-auto mb-4" aria-hidden="true" />
                 <h4 className="text-xl font-bold text-gray-900 mb-2">Application Submitted</h4>
                 <p className="text-gray-600">
                   Thank you for reaching out. Your information has been securely received. A case manager will contact you shortly.
@@ -137,25 +143,25 @@ export default function Intake() {
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                    <input required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst" />
+                    <label htmlFor="intake-name" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                    <input id="intake-name" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
-                    <input required type="tel" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst" />
+                    <label htmlFor="intake-phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number *</label>
+                    <input id="intake-phone" required type="tel" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email Address (Optional)</label>
-                  <input type="email" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst" />
+                  <label htmlFor="intake-email" className="block text-sm font-medium text-gray-700 mb-1">Email Address (Optional)</label>
+                  <input id="intake-email" type="email" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Reason for seeking shelter *</label>
-                  <textarea required rows={3} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst"></textarea>
+                  <label htmlFor="intake-reason" className="block text-sm font-medium text-gray-700 mb-1">Reason for seeking shelter *</label>
+                  <textarea id="intake-reason" required rows={3} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst"></textarea>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Immediate Needs (e.g., medical, food, clothing)</label>
-                  <textarea rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst"></textarea>
+                  <label htmlFor="intake-needs" className="block text-sm font-medium text-gray-700 mb-1">Immediate Needs (e.g., medical, food, clothing)</label>
+                  <textarea id="intake-needs" rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amethyst/50 focus:border-amethyst"></textarea>
                 </div>
                 
                 <div className="pt-4 flex justify-end gap-3">

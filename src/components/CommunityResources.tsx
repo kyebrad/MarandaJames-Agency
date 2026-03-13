@@ -114,7 +114,7 @@ export default function CommunityResources() {
           <div className="bg-lavender-base rounded-3xl p-8 border border-amethyst/10 shadow-sm flex flex-col">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-full bg-olive/10 flex items-center justify-center text-olive">
-                <MapPin className="w-6 h-6" />
+                <MapPin className="w-6 h-6" aria-hidden="true" />
               </div>
               <div>
                 <h4 className="text-xl font-bold text-gray-900">Nearby Safe Locations</h4>
@@ -124,13 +124,13 @@ export default function CommunityResources() {
             
             {!mapsState.content && !mapsState.isLoading && !mapsState.error && (
               <div className="flex-grow flex flex-col items-center justify-center py-12 text-center">
-                <Info className="w-8 h-8 text-gray-300 mb-4" />
+                <Info className="w-8 h-8 text-gray-500 mb-4" aria-hidden="true" />
                 <p className="text-gray-500 mb-6 max-w-xs">Click below to find the closest emergency and support facilities using Google Maps data.</p>
                 <button 
                   onClick={handleFindNearby}
                   className="bg-olive hover:bg-olive-dark text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center gap-2"
                 >
-                  <MapPin className="w-4 h-4" />
+                  <MapPin className="w-4 h-4" aria-hidden="true" />
                   Find Nearby Locations
                 </button>
               </div>
@@ -138,7 +138,7 @@ export default function CommunityResources() {
 
             {mapsState.isLoading && (
               <div className="flex-grow flex flex-col items-center justify-center py-12 text-center">
-                <Loader2 className="w-8 h-8 text-olive animate-spin mb-4" />
+                <Loader2 className="w-8 h-8 text-olive animate-spin mb-4" aria-hidden="true" />
                 <p className="text-gray-500">Locating nearby facilities...</p>
               </div>
             )}
@@ -169,7 +169,7 @@ export default function CommunityResources() {
                           className="inline-flex items-center gap-1.5 text-xs bg-white border border-gray-200 hover:border-olive hover:text-olive px-3 py-1.5 rounded-lg transition-colors"
                         >
                           {link.title || 'View on Maps'}
-                          <ExternalLink className="w-3 h-3" />
+                          <ExternalLink className="w-3 h-3" aria-hidden="true" />
                         </a>
                       ))}
                     </div>
@@ -183,7 +183,7 @@ export default function CommunityResources() {
           <div className="bg-lavender-base rounded-3xl p-8 border border-amethyst/10 shadow-sm flex flex-col">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-full bg-amethyst/10 flex items-center justify-center text-amethyst">
-                <Search className="w-6 h-6" />
+                <Search className="w-6 h-6" aria-hidden="true" />
               </div>
               <div>
                 <h4 className="text-xl font-bold text-gray-900">Latest Community Programs</h4>
@@ -193,13 +193,13 @@ export default function CommunityResources() {
             
             {!searchState.content && !searchState.isLoading && !searchState.error && (
               <div className="flex-grow flex flex-col items-center justify-center py-12 text-center">
-                <Info className="w-8 h-8 text-gray-300 mb-4" />
+                <Info className="w-8 h-8 text-gray-500 mb-4" aria-hidden="true" />
                 <p className="text-gray-500 mb-6 max-w-xs">Search the web for recent news, job fairs, and community resources for women in Niagara Falls.</p>
                 <button 
                   onClick={handleSearchNews}
                   className="bg-amethyst hover:bg-amethyst-dark text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center gap-2"
                 >
-                  <Search className="w-4 h-4" />
+                  <Search className="w-4 h-4" aria-hidden="true" />
                   Search Local Programs
                 </button>
               </div>
@@ -207,7 +207,7 @@ export default function CommunityResources() {
 
             {searchState.isLoading && (
               <div className="flex-grow flex flex-col items-center justify-center py-12 text-center">
-                <Loader2 className="w-8 h-8 text-amethyst animate-spin mb-4" />
+                <Loader2 className="w-8 h-8 text-amethyst animate-spin mb-4" aria-hidden="true" />
                 <p className="text-gray-500">Searching recent resources...</p>
               </div>
             )}
@@ -239,7 +239,7 @@ export default function CommunityResources() {
                           title={link.title || link.uri}
                         >
                           <span className="truncate">{link.title || 'Source Link'}</span>
-                          <ExternalLink className="w-3 h-3 flex-shrink-0" />
+                          <ExternalLink className="w-3 h-3 flex-shrink-0" aria-hidden="true" />
                         </a>
                       ))}
                     </div>

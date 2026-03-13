@@ -8,6 +8,7 @@ import Hero from './components/Hero';
 import Services from './components/Services';
 import Intake from './components/Intake';
 import CommunityResources from './components/CommunityResources';
+import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import Chatbot from './components/Chatbot';
 
@@ -19,6 +20,7 @@ export default function App() {
         <Hero />
         <Services />
         <Intake />
+        <FAQ />
         <CommunityResources />
       </main>
       <Footer />

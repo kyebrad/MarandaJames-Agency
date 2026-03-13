@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Heart, Users, Package, X, CheckCircle2 } from 'lucide-react';
+import { Heart, Users, Package, X, CheckCircle2, HandHeart } from 'lucide-react';
 
 export default function Hero() {
-  const [activeModal, setActiveModal] = useState<'donate' | 'volunteer' | 'items' | null>(null);
+  const [activeModal, setActiveModal] = useState<'donate' | 'volunteer' | 'items' | 'involved' | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleActionSubmit = (e: React.FormEvent) => {
@@ -33,28 +33,39 @@ export default function Hero() {
             Providing a supportive bridge to give individuals the tools, skills, and stability needed to transition into independent housing, while demonstrating the life-changing gospel of Jesus Christ.
           </p>
           
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4">
-            <button 
-              onClick={() => setActiveModal('donate')}
-              className="flex items-center justify-center gap-2 bg-olive hover:bg-olive-dark text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 group"
-            >
-              <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              Make a Donation
-            </button>
-            <button 
-              onClick={() => setActiveModal('volunteer')}
-              className="flex items-center justify-center gap-2 bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-md group"
-            >
-              <Users className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              Volunteer With Us
-            </button>
-            <button 
-              onClick={() => setActiveModal('items')}
-              className="flex items-center justify-center gap-2 bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-8 py-4 rounded-xl font-semibold transition-all shadow-md group"
-            >
-              <Package className="w-5 h-5 group-hover:scale-110 transition-transform" />
-              Donate Items
-            </button>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4 items-center">
+              <button 
+                onClick={() => setActiveModal('donate')}
+                className="flex items-center justify-center gap-2 bg-amethyst hover:bg-amethyst-dark text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 group w-full sm:w-auto"
+              >
+                <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                Make a Donation
+              </button>
+              <button 
+                onClick={() => setActiveModal('volunteer')}
+                className="flex items-center justify-center gap-2 bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 group w-full sm:w-auto"
+              >
+                <Users className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                Volunteer With Us
+              </button>
+              <button 
+                onClick={() => setActiveModal('items')}
+                className="flex items-center justify-center gap-2 bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 group w-full sm:w-auto"
+              >
+                <Package className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                Donate Items
+              </button>
+            </div>
+            <div className="flex items-center">
+              <button 
+                onClick={() => setActiveModal('involved')}
+                className="flex items-center justify-center gap-2 bg-transparent border-2 border-amethyst text-amethyst hover:bg-amethyst hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 group w-full sm:w-auto"
+              >
+                <HandHeart className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
+                Get Involved
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -62,17 +73,23 @@ export default function Hero() {
       {/* Action Modal */}
       {activeModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 md:p-8 relative my-8">
+          <div 
+            className="bg-white rounded-2xl shadow-xl max-w-md w-full p-6 md:p-8 relative my-8"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="action-modal-title"
+          >
             <button
               onClick={closeModal}
+              aria-label="Close"
               className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
             >
-              <X className="w-6 h-6" />
+              <X className="w-6 h-6" aria-hidden="true" />
             </button>
             
             {isSubmitted ? (
               <div className="text-center py-8">
-                <CheckCircle2 className="w-16 h-16 text-olive mx-auto mb-4" />
+                <CheckCircle2 className="w-16 h-16 text-olive mx-auto mb-4" aria-hidden="true" />
                 <h3 className="text-2xl font-serif font-bold text-amethyst-dark mb-2">Thank You!</h3>
                 <p className="text-gray-600 mb-6">
                   We have received your information. Our team will be in touch with you shortly.
@@ -86,31 +103,33 @@ export default function Hero() {
               </div>
             ) : (
               <>
-                <h3 className="text-2xl font-serif font-bold text-amethyst-dark mb-2">
+                <h3 id="action-modal-title" className="text-2xl font-serif font-bold text-amethyst-dark mb-2">
                   {activeModal === 'donate' && 'Make a Donation'}
                   {activeModal === 'volunteer' && 'Volunteer With Us'}
                   {activeModal === 'items' && 'Donate Items'}
+                  {activeModal === 'involved' && 'Get Involved'}
                 </h3>
                 <p className="text-gray-600 mb-6 text-sm">
                   {activeModal === 'donate' && 'Your financial support helps us provide safe housing and essential services.'}
                   {activeModal === 'volunteer' && 'Join our community of volunteers making a difference every day.'}
                   {activeModal === 'items' && 'We accept clothing, non-perishable food, and hygiene products.'}
+                  {activeModal === 'involved' && 'Discover the many ways you can partner with MarandaJames Agency to make a lasting impact in our community.'}
                 </p>
                 
                 <form onSubmit={handleActionSubmit} className="space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                    <input required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive" />
+                    <label htmlFor="hero-name" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
+                    <input id="hero-name" required type="text" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-                    <input required type="email" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive" />
+                    <label htmlFor="hero-email" className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
+                    <input id="hero-email" required type="email" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive" />
                   </div>
                   
                   {activeModal === 'donate' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Donation Amount</label>
-                      <select className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive">
+                      <label htmlFor="hero-amount" className="block text-sm font-medium text-gray-700 mb-1">Donation Amount</label>
+                      <select id="hero-amount" className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive">
                         <option>$25</option>
                         <option>$50</option>
                         <option>$100</option>
@@ -121,8 +140,15 @@ export default function Hero() {
                   
                   {activeModal === 'items' && (
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">Items to Donate</label>
-                      <textarea required rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive" placeholder="Please describe the items..."></textarea>
+                      <label htmlFor="hero-items" className="block text-sm font-medium text-gray-700 mb-1">Items to Donate</label>
+                      <textarea id="hero-items" required rows={2} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive" placeholder="Please describe the items..."></textarea>
+                    </div>
+                  )}
+
+                  {activeModal === 'involved' && (
+                    <div>
+                      <label htmlFor="hero-involved" className="block text-sm font-medium text-gray-700 mb-1">How would you like to get involved?</label>
+                      <textarea id="hero-involved" required rows={3} className="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-olive/50 focus:border-olive" placeholder="Tell us about your interests, skills, or ideas..."></textarea>
                     </div>
                   )}
 

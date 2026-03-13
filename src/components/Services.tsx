@@ -53,7 +53,7 @@ export default function Services() {
                 className="bg-lavender-base rounded-2xl p-8 border border-amethyst/10 hover:shadow-lg transition-shadow group"
               >
                 <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shadow-sm mb-6 group-hover:bg-amethyst group-hover:text-white transition-colors text-amethyst">
-                  <Icon className="w-7 h-7" strokeWidth={1.5} />
+                  <Icon className="w-7 h-7" strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <h4 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h4>
                 <p className="text-gray-600 leading-relaxed">
