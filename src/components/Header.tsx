@@ -44,7 +44,8 @@ export default function Header() {
             <button
               onClick={() => setIsExitModalOpen(true)}
               aria-expanded={isExitModalOpen}
-              className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full font-bold text-sm transition-colors shadow-md"
+              className="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-full font-bold text-sm shadow-md"
+              style={{ transition: 'none', transform: 'none', animation: 'none' }}
               title="Quickly leave this site"
             >
               <ShieldAlert className="w-4 h-4" aria-hidden="true" />
@@ -79,7 +80,8 @@ export default function Header() {
               </button>
               <button
                 onClick={handleQuickExit}
-                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium transition-colors"
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-medium"
+                style={{ transition: 'none', transform: 'none', animation: 'none' }}
               >
                 Yes, Exit
               </button>

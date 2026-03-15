@@ -1,5 +1,10 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const faqs = [
   {
@@ -30,24 +35,50 @@ const faqs = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.from('.faq-header', {
+      scrollTrigger: {
+        trigger: '.faq-header',
+        start: 'top 85%',
+      },
+      y: 30,
+      opacity: 0,
+      duration: 1,
+      ease: 'power3.out',
+    });
+
+    gsap.from('.faq-item', {
+      scrollTrigger: {
+        trigger: '.faq-list',
+        start: 'top 85%',
+      },
+      x: -20,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.1,
+      ease: 'power3.out',
+    });
+  }, { scope: containerRef });
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section id="faq" className="py-20 bg-lavender-base/30">
+    <section id="faq" ref={containerRef} className="py-20 bg-lavender-base/30">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
+        <div className="faq-header text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-serif font-bold text-amethyst-dark mb-4">Frequently Asked Questions</h2>
           <p className="text-lg text-gray-600">Find answers to common questions about our agency, services, and how to get help.</p>
         </div>
         
-        <div className="space-y-4">
+        <div className="faq-list space-y-4">
           {faqs.map((faq, index) => (
             <div 
               key={index} 
-              className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+              className="faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
             >
               <button
                 onClick={() => toggleFAQ(index)}

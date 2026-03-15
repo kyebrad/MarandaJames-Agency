@@ -16,6 +16,11 @@ html {
   --color-gold: #d4af37;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --animate-shimmer: shimmer 8s linear infinite;
+  @keyframes shimmer {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
 }
 
 body {
