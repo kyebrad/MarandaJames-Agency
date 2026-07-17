@@ -1,19 +1,26 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ShieldCheck, ArrowRight, FileText, PhoneCall, Home, ArrowLeft } from 'lucide-react';
+import { revealOnScroll } from '../lib/motion';
 
 export default function Intake() {
   const [showForm, setShowForm] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [safeContactMethod, setSafeContactMethod] = useState('call');
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mm = revealOnScroll(cardRef.current!, { y: 32 });
+    return () => mm.revert();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
-    
+    const data: Record<string, FormDataEntryValue | string[]> = Object.fromEntries(formData.entries());
+
     // Immediate needs checkboxes
     const needs = ['housing', 'clothing', 'medical', 'food', 'legal'].filter(need => formData.get(`need_${need}`));
     data.immediateNeeds = needs;
@@ -38,7 +45,7 @@ export default function Intake() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div ref={cardRef} className="bg-white rounded-3xl shadow-premium-lg overflow-hidden">
           <div className="grid grid-cols-1 lg:grid-cols-2">
             <div className="p-10 md:p-16 flex flex-col justify-center relative min-h-[600px]">
               {isSubmitted ? (
@@ -247,29 +254,30 @@ export default function Intake() {
               )}
             </div>
             
-            <div className="bg-amethyst-dark p-10 md:p-16 text-white flex flex-col justify-center relative overflow-hidden">
-              <div className="absolute inset-0 opacity-10">
+            <div className="bg-amethyst-dark p-10 md:p-16 text-white flex flex-col justify-center relative overflow-hidden bg-grain bg-gradient-to-br from-amethyst-dark to-amethyst/90">
+              <div className="absolute inset-0 opacity-10 pointer-events-none">
                 <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
                   <path d="M0,100 L100,0 L100,100 Z" fill="currentColor" />
                 </svg>
               </div>
               <div className="relative z-10">
+                <div className="kicker text-gold mb-3">Immediate Assistance</div>
                 <h3 className="text-2xl font-serif font-bold mb-4">Need immediate assistance?</h3>
                 <p className="text-white/90 mb-8">
                   If you are in immediate danger, please call 911. For 24/7 domestic violence support, contact the national hotline.
                 </p>
                 <div className="space-y-4">
-                  <a href="tel:18007997233" className="flex items-center gap-4 bg-white/10 hover:bg-white/20 p-4 rounded-xl transition-colors backdrop-blur-sm">
+                  <a href="tel:18007997233" className="flex items-center gap-4 bg-white/15 hover:bg-white/25 border border-white/10 p-4 rounded-xl transition-colors backdrop-blur-sm">
                     <PhoneCall className="w-6 h-6 text-gold" aria-hidden="true" />
                     <div>
-                      <div className="text-sm text-amethyst-light">National DV Hotline</div>
+                      <div className="text-sm text-white/70">National DV Hotline</div>
                       <div className="font-bold text-xl">1-800-799-SAFE</div>
                     </div>
                   </a>
                   <div className="flex items-center gap-4 bg-white/10 p-4 rounded-xl backdrop-blur-sm">
                     <Home className="w-6 h-6 text-gold" aria-hidden="true" />
                     <div>
-                      <div className="text-sm text-amethyst-light">Location</div>
+                      <div className="text-sm text-white/70">Location</div>
                       <div className="font-bold">Niagara Falls, NY</div>
                       <div className="text-xs text-amethyst-light mt-1">Exact address provided upon intake approval</div>
                     </div>

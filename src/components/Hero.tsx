@@ -1,5 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Heart, Users, Package, X, CheckCircle2, HandHeart } from 'lucide-react';
+import { revealOnLoad } from '../lib/motion';
 
 const MagneticButton = ({ children, onClick, className, primary = false }: any) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -65,6 +66,18 @@ const MagneticButton = ({ children, onClick, className, primary = false }: any) 
 export default function Hero() {
   const [activeModal, setActiveModal] = useState<'donate' | 'volunteer' | 'items' | 'involved' | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const kickerRef = useRef<HTMLDivElement>(null);
+  const headlineRef = useRef<HTMLHeadingElement>(null);
+  const subheadRef = useRef<HTMLParagraphElement>(null);
+  const actionsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const mm = revealOnLoad(
+      [kickerRef.current, headlineRef.current, subheadRef.current, actionsRef.current],
+      { stagger: 0.14 }
+    );
+    return () => mm.revert();
+  }, []);
 
   const handleActionSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -77,52 +90,50 @@ export default function Hero() {
   };
 
   return (
-    <section id="hero" className="relative overflow-hidden bg-lavender-dark min-h-[600px] flex flex-col justify-center">
-      {/* Geometric Background Elements */}
-      <div className="absolute inset-0 z-0">
-        <div className="absolute top-0 right-0 w-full md:w-2/3 h-full bg-amethyst/10 transform -skew-x-12 translate-x-20 origin-top-right"></div>
-        <div className="absolute bottom-0 left-0 w-full md:w-1/2 h-2/3 bg-amethyst/5 transform skew-x-12 -translate-x-20 origin-bottom-left"></div>
-        <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-amethyst/20 rounded-full blur-3xl"></div>
-      </div>
+    <section id="hero" className="relative overflow-hidden bg-grain min-h-[640px] flex flex-col justify-center bg-gradient-to-br from-lavender-dark via-lavender-dark to-amethyst-light/20">
+      {/* Soft gold dawn bloom, top-right - the hero's one deliberate light source */}
+      <div className="absolute -top-32 -right-32 w-[36rem] h-[36rem] bg-gold/25 rounded-full blur-[100px] pointer-events-none" aria-hidden="true"></div>
+      <div className="absolute bottom-0 left-0 w-[28rem] h-[28rem] bg-amethyst/10 rounded-full blur-[100px] -translate-x-1/3 translate-y-1/3 pointer-events-none" aria-hidden="true"></div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-36">
         <div className="max-w-3xl">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-amethyst-dark leading-tight mb-6">
-            A safe place to <span className="text-amethyst">start over.</span>
+          <div ref={kickerRef} className="kicker text-amethyst mb-5">Niagara Falls, NY &middot; Est. transitional housing</div>
+          <h1 ref={headlineRef} className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-amethyst-dark leading-[0.98] tracking-tight mb-8">
+            A safe place to <span className="text-amethyst italic">start over.</span>
           </h1>
-          <p className="text-lg md:text-xl leading-relaxed mb-10 max-w-2xl border-l-4 border-gold pl-6 bg-gradient-to-r from-amethyst-light via-gold to-amethyst-light bg-[length:200%_auto] animate-shimmer text-transparent bg-clip-text font-medium">
+          <p ref={subheadRef} className="text-lg md:text-xl leading-relaxed mb-10 max-w-2xl border-l-4 border-gold pl-6 text-amethyst-dark/80 font-medium">
             Providing a supportive bridge to give individuals the tools, skills, and stability needed to transition into independent housing, while demonstrating the life-changing gospel of Jesus Christ.
           </p>
-          
-          <div className="flex flex-col gap-4">
+
+          <div ref={actionsRef} className="flex flex-col gap-4">
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 items-center">
-              <MagneticButton 
+              <MagneticButton
                 onClick={() => setActiveModal('donate')}
                 primary={true}
-                className="bg-amethyst hover:bg-amethyst-dark text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-lg hover:shadow-xl group w-full sm:w-auto"
+                className="bg-amethyst hover:bg-amethyst-dark text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-premium-lg group w-full sm:w-auto"
               >
                 <Heart className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 Make a Donation
               </MagneticButton>
-              <MagneticButton 
+              <MagneticButton
                 onClick={() => setActiveModal('volunteer')}
-                className="bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-colors shadow-sm hover:shadow-md group w-full sm:w-auto"
+                className="bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-colors shadow-premium group w-full sm:w-auto"
               >
                 <Users className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 Volunteer With Us
               </MagneticButton>
-              <button 
+              <button
                 onClick={() => setActiveModal('items')}
-                className="flex items-center justify-center gap-2 bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 group w-full sm:w-auto"
+                className="flex items-center justify-center gap-2 bg-white border-2 border-olive text-olive hover:bg-olive hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-all shadow-premium hover:-translate-y-0.5 group w-full sm:w-auto"
               >
                 <Package className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 Donate Items
               </button>
             </div>
             <div className="flex items-center">
-              <button 
+              <button
                 onClick={() => setActiveModal('involved')}
-                className="flex items-center justify-center gap-2 bg-transparent border-2 border-amethyst text-amethyst hover:bg-amethyst hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 group w-full sm:w-auto"
+                className="flex items-center justify-center gap-2 bg-transparent border-2 border-amethyst text-amethyst hover:bg-amethyst hover:text-white px-6 py-3.5 rounded-xl font-semibold transition-all shadow-sm hover:shadow-premium hover:-translate-y-0.5 group w-full sm:w-auto"
               >
                 <HandHeart className="w-5 h-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                 Get Involved

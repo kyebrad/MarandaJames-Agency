@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { MapPin, Search, ExternalLink, Loader2, Info } from 'lucide-react';
-import { ai } from '../lib/gemini';
+import { callGemini } from '../lib/gemini';
+import { revealOnScroll } from '../lib/motion';
 import Markdown from 'react-markdown';
 
 type ResourceState = {
@@ -39,29 +40,15 @@ export default function CommunityResources() {
     setMapsState({ isLoading: true, content: null, links: [], error: null });
     try {
       const coords = await getCoordinates();
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: "What are some nearby hospitals, urgent care centers, and police stations? Please provide their names and brief details.",
-        config: {
-          tools: [{ googleMaps: {} }],
-          toolConfig: {
-            retrievalConfig: {
-              latLng: {
-                latitude: coords.latitude,
-                longitude: coords.longitude
-              }
-            }
-          }
-        },
+      const { text, links } = await callGemini('maps', {
+        latitude: coords.latitude,
+        longitude: coords.longitude,
       });
-
-      const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-      const links = chunks.map(c => c.maps).filter(Boolean) as Array<{ uri: string; title?: string }>;
 
       setMapsState({
         isLoading: false,
-        content: response.text || "No details found.",
-        links: links,
+        content: text || "No details found.",
+        links: links || [],
         error: null
       });
     } catch (error) {
@@ -73,21 +60,12 @@ export default function CommunityResources() {
   const handleSearchNews = async () => {
     setSearchState({ isLoading: true, content: null, links: [], error: null });
     try {
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: "Find recent community resources, job fairs, or support programs for women in Niagara Falls, NY. Summarize the findings.",
-        config: {
-          tools: [{ googleSearch: {} }],
-        },
-      });
-
-      const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks || [];
-      const links = chunks.map(c => c.web).filter(Boolean) as Array<{ uri: string; title?: string }>;
+      const { text, links } = await callGemini('search', {});
 
       setSearchState({
         isLoading: false,
-        content: response.text || "No details found.",
-        links: links,
+        content: text || "No details found.",
+        links: links || [],
         error: null
       });
     } catch (error) {
@@ -96,12 +74,24 @@ export default function CommunityResources() {
     }
   };
 
+  const headerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const mmHeader = revealOnScroll(headerRef.current!);
+    const mmCards = revealOnScroll(cardsRef.current.filter(Boolean) as HTMLDivElement[], { stagger: 0.15 });
+    return () => {
+      mmHeader.revert();
+      mmCards.revert();
+    };
+  }, []);
+
   return (
     <section id="resources" className="py-24 bg-white border-t border-gray-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-sm font-bold tracking-widest text-olive uppercase mb-3">Live Information</h2>
-          <h3 className="text-3xl md:text-4xl font-serif font-bold text-amethyst-dark mb-4">
+        <div ref={headerRef} className="text-center max-w-3xl mx-auto mb-16">
+          <h2 className="kicker text-olive mb-3">Live Information</h2>
+          <h3 className="text-3xl md:text-5xl font-serif font-bold text-amethyst-dark tracking-tight mb-4">
             Community Resources & Safe Locations
           </h3>
           <p className="text-gray-600">
@@ -111,7 +101,7 @@ export default function CommunityResources() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Maps Grounding Card */}
-          <div className="bg-lavender-base rounded-3xl p-8 border border-amethyst/10 shadow-sm flex flex-col">
+          <div ref={(el) => { cardsRef.current[0] = el; }} className="bg-lavender-base rounded-3xl p-8 border border-amethyst/10 shadow-premium flex flex-col">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-full bg-olive/10 flex items-center justify-center text-olive">
                 <MapPin className="w-6 h-6" aria-hidden="true" />
@@ -180,7 +170,7 @@ export default function CommunityResources() {
           </div>
 
           {/* Search Grounding Card */}
-          <div className="bg-lavender-base rounded-3xl p-8 border border-amethyst/10 shadow-sm flex flex-col">
+          <div ref={(el) => { cardsRef.current[1] = el; }} className="bg-lavender-base rounded-3xl p-8 border border-amethyst/10 shadow-premium flex flex-col">
             <div className="flex items-center gap-4 mb-6">
               <div className="w-12 h-12 rounded-full bg-amethyst/10 flex items-center justify-center text-amethyst">
                 <Search className="w-6 h-6" aria-hidden="true" />

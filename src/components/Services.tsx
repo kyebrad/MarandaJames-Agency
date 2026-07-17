@@ -1,9 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { Home, ClipboardList, BookOpen, Briefcase, PiggyBank, HeartHandshake } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
+import { revealOnScroll } from '../lib/motion';
 
 const services = [
   {
@@ -43,39 +40,16 @@ export default function Services() {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      cardsRef.current.forEach((card, i) => {
-        if (!card) return;
-        gsap.fromTo(card,
-          {
-            opacity: 0,
-            filter: 'blur(12px)'
-          },
-          {
-            opacity: 1,
-            filter: 'blur(0px)',
-            duration: 1.5,
-            ease: 'power2.out',
-            scrollTrigger: {
-              trigger: card,
-              start: 'top 85%',
-              toggleActions: 'play none none none'
-            },
-            delay: (i % 3) * 0.15 // Stagger by row position
-          }
-        );
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    const mm = revealOnScroll(cardsRef.current.filter(Boolean) as HTMLDivElement[], { stagger: 0.12 });
+    return () => mm.revert();
   }, []);
 
   return (
     <section id="services" ref={sectionRef} className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-sm font-bold tracking-widest text-olive uppercase mb-3">Our Core Services</h2>
-          <h3 className="text-3xl md:text-4xl font-serif font-bold text-amethyst-dark">
+          <h2 className="kicker text-olive mb-3">Our Core Services</h2>
+          <h3 className="text-3xl md:text-5xl font-serif font-bold text-amethyst-dark tracking-tight">
             Comprehensive support for your journey forward.
           </h3>
         </div>
@@ -84,12 +58,12 @@ export default function Services() {
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <div 
-                key={index} 
-                ref={(el) => (cardsRef.current[index] = el)}
-                className="bg-lavender-base rounded-2xl p-8 border border-amethyst/10 hover:shadow-lg transition-shadow group opacity-0"
+              <div
+                key={index}
+                ref={(el) => { cardsRef.current[index] = el; }}
+                className="bg-lavender-base rounded-2xl p-8 border border-amethyst/10 shadow-premium hover:shadow-premium-lg hover:-translate-y-1 transition-[transform,box-shadow] duration-300 ease-out group"
               >
-                <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center shadow-sm mb-6 group-hover:bg-amethyst group-hover:text-white transition-colors text-amethyst">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-white to-amethyst/5 flex items-center justify-center shadow-sm mb-6 group-hover:from-amethyst group-hover:to-amethyst-dark group-hover:text-white transition-colors text-amethyst">
                   <Icon className="w-7 h-7" strokeWidth={1.5} aria-hidden="true" />
                 </div>
                 <h4 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h4>

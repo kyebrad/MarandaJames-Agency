@@ -12,27 +12,45 @@ export default function Header() {
     window.location.replace('https://www.weather.com');
   };
 
+  const navLinks = [
+    { href: '#services', label: 'Services' },
+    { href: '#intake', label: 'Get Help' },
+    { href: '#faq', label: 'FAQ' },
+    { href: '#resources', label: 'Resources' },
+  ];
+
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-md shadow-amethyst/5 relative overflow-hidden">
+      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-premium relative overflow-hidden">
         {/* Subtle top gradient accent */}
-        <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-amethyst via-olive to-amethyst"></div>
-        {/* Subtle background glow */}
-        <div className="absolute top-0 left-1/4 w-1/2 h-full bg-amethyst/5 blur-2xl -z-10"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 flex items-center justify-between relative z-10">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amethyst via-gold to-amethyst"></div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex items-center justify-between gap-4 relative z-10">
           {/* Logo */}
-          <div className="flex items-center justify-center flex-1 sm:flex-none sm:justify-start mr-2 sm:mr-0">
-            <img 
-              src="https://i.imgur.com/XRPl2IF.png" 
-              alt="MarandaJames Agency Logo" 
-              className="h-20 sm:h-24 lg:h-28 w-auto object-contain"
+          <a href="#hero" className="flex items-center shrink-0" aria-label="MarandaJames Agency home">
+            <img
+              src="https://i.imgur.com/XRPl2IF.png"
+              alt="MarandaJames Agency Logo"
+              className="h-16 sm:h-20 w-auto object-contain"
               referrerPolicy="no-referrer"
             />
-          </div>
+          </a>
+
+          {/* Wayfinding nav (desktop only) */}
+          <nav aria-label="Primary" className="hidden lg:flex items-center gap-8 mx-auto">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="kicker text-amethyst-dark/70 hover:text-amethyst transition-colors"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
 
           {/* Safety Actions */}
-          <div className="flex items-center gap-4 shrink-0">
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
             <button
               onClick={() => setIsModalOpen(true)}
               aria-expanded={isModalOpen}
@@ -49,7 +67,8 @@ export default function Header() {
               title="Quickly leave this site"
             >
               <ShieldAlert className="w-4 h-4" aria-hidden="true" />
-              QUICK EXIT
+              <span className="hidden xs:inline">QUICK EXIT</span>
+              <span className="xs:hidden">EXIT</span>
             </button>
           </div>
         </div>

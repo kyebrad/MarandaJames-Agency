@@ -1,11 +1,20 @@
+import { useRef, useEffect } from 'react';
 import { Heart, Home } from 'lucide-react';
+import { revealOnScroll } from '../lib/motion';
 
 export default function Footer() {
+  const colsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const mm = revealOnScroll(colsRef.current.filter(Boolean) as HTMLDivElement[], { stagger: 0.1, y: 16 });
+    return () => mm.revert();
+  }, []);
+
   return (
-    <footer className="bg-olive text-white pt-16 pb-8">
+    <footer className="bg-olive-dark text-white pt-16 pb-8 bg-grain">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-          <div className="col-span-1 lg:col-span-2">
+          <div ref={(el) => { colsRef.current[0] = el; }} className="col-span-1 lg:col-span-2">
             <a href="#" aria-label="Home" className="mb-6 inline-block bg-white p-3 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
               <img 
                 src="https://i.imgur.com/XRPl2IF.png" 
@@ -26,7 +35,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
+          <div ref={(el) => { colsRef.current[1] = el; }}>
             <h4 className="font-bold text-lg mb-6 text-white">Quick Links</h4>
             <ul className="space-y-3 text-sm text-gray-200">
               <li><a href="#hero" className="hover:text-white transition-colors">About Us</a></li>
@@ -38,7 +47,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div>
+          <div ref={(el) => { colsRef.current[2] = el; }}>
             <h4 className="font-bold text-lg mb-6 text-white">Community Partners</h4>
             <ul className="space-y-4 text-sm text-gray-200">
               <li className="flex items-center gap-3">

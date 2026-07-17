@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { MessageCircleHeart, X, Send, AlertTriangle, Loader2 } from 'lucide-react';
-import { ai } from '../lib/gemini';
+import { callGemini } from '../lib/gemini';
 import Markdown from 'react-markdown';
 
 type Message = {
@@ -20,20 +20,6 @@ export default function Chatbot() {
   const [isLoading, setIsLoading] = useState(false);
   const [isEmergencyStopped, setIsEmergencyStopped] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
-  // Store the chat session
-  const chatRef = useRef<any>(null);
-
-  useEffect(() => {
-    if (!chatRef.current) {
-      chatRef.current = ai.chats.create({
-        model: 'gemini-3.1-pro-preview',
-        config: {
-          systemInstruction: "You are a compassionate, helpful, and trauma-informed assistant for MarandaJames Agency, a faith-based women's transitional shelter in Niagara Falls, NY. Provide supportive, safe, and accurate information about our services. Keep responses concise, empowering, and empathetic. Do not provide medical or legal advice. IMPORTANT SAFETY DIRECTIVE: If the user expresses immediate danger, acute domestic violence, or suicidal ideation, you MUST start your response EXACTLY with the phrase 'EMERGENCY_DETECTED' and then provide emergency contact information.",
-        }
-      });
-    }
-  }, []);
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -65,9 +51,9 @@ export default function Chatbot() {
     }
 
     try {
-      const response = await chatRef.current.sendMessage({ message: userText });
+      const response = await callGemini('chat', { history: messages, message: userText });
       let responseText = response.text;
-      
+
       if (responseText.includes('EMERGENCY_DETECTED')) {
         responseText = "It sounds like you may be in immediate danger. **Please call 911 immediately.**\n\nFor 24/7 confidential support, call the **National Domestic Violence Hotline at 1-800-799-SAFE (7233)** or text \"START\" to 88788.\n\n*For your safety, this automated chat has been disabled. Please reach out to the emergency resources provided above.*";
         setIsEmergencyStopped(true);

@@ -1,10 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
-
-gsap.registerPlugin(ScrollTrigger);
+import { revealOnScroll } from '../lib/motion';
 
 const faqs = [
   {
@@ -35,50 +31,39 @@ const faqs = [
 
 export default function FAQ() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    gsap.from('.faq-header', {
-      scrollTrigger: {
-        trigger: '.faq-header',
-        start: 'top 85%',
-      },
-      y: 30,
-      opacity: 0,
-      duration: 1,
-      ease: 'power3.out',
-    });
-
-    gsap.from('.faq-item', {
-      scrollTrigger: {
-        trigger: '.faq-list',
-        start: 'top 85%',
-      },
-      x: -20,
-      opacity: 0,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: 'power3.out',
-    });
-  }, { scope: containerRef });
+  useEffect(() => {
+    const mmHeader = revealOnScroll(headerRef.current!);
+    const mmList = revealOnScroll(
+      Array.from(listRef.current?.children ?? []) as HTMLDivElement[],
+      { stagger: 0.08, y: 16 }
+    );
+    return () => {
+      mmHeader.revert();
+      mmList.revert();
+    };
+  }, []);
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
   return (
-    <section id="faq" ref={containerRef} className="py-20 bg-lavender-base/30">
+    <section id="faq" className="py-20 bg-lavender-base/30">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="faq-header text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amethyst-dark mb-4">Frequently Asked Questions</h2>
+        <div ref={headerRef} className="text-center mb-12">
+          <h2 className="kicker text-olive mb-3">Questions &amp; Answers</h2>
+          <h3 className="text-3xl md:text-5xl font-serif font-bold text-amethyst-dark tracking-tight mb-4">Frequently Asked Questions</h3>
           <p className="text-lg text-gray-600">Find answers to common questions about our agency, services, and how to get help.</p>
         </div>
-        
-        <div className="faq-list space-y-4">
+
+        <div ref={listRef} className="space-y-4">
           {faqs.map((faq, index) => (
-            <div 
-              key={index} 
-              className="faq-item bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+            <div
+              key={index}
+              className="bg-white border border-gray-200 rounded-2xl overflow-hidden shadow-premium hover:shadow-premium-lg transition-shadow duration-300"
             >
               <button
                 onClick={() => toggleFAQ(index)}
@@ -86,12 +71,12 @@ export default function FAQ() {
                 aria-expanded={openIndex === index}
               >
                 <span className="font-semibold text-gray-900 pr-8">{faq.question}</span>
-                <ChevronDown 
-                  className={`w-5 h-5 text-amethyst flex-shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`} 
+                <ChevronDown
+                  className={`w-5 h-5 text-amethyst flex-shrink-0 transition-transform duration-300 ${openIndex === index ? 'rotate-180' : ''}`}
                   aria-hidden="true"
                 />
               </button>
-              <div 
+              <div
                 className={`px-6 overflow-hidden transition-all duration-300 ease-in-out ${openIndex === index ? 'max-h-96 pb-5 opacity-100' : 'max-h-0 opacity-0'}`}
                 aria-hidden={openIndex !== index}
               >
