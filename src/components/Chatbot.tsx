@@ -13,7 +13,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'model',
-      text: 'Hello. I am the MarandaJames Agency assistant. How can I support you today? \n\n*If you are in immediate danger, please call 911 or the National Domestic Violence Hotline at 1-800-799-SAFE.*'
+      text: 'Hello. I am the MarandaJames Elect LLC assistant. How can I support you today? \n\n*If you are in immediate danger, please call 911 or the National Domestic Violence Hotline at 1-800-799-SAFE.*'
     }
   ]);
   const [input, setInput] = useState('');

@@ -1,10 +1,10 @@
-# MarandaJames Agency
+# MarandaJames Elect LLC
 
 A faith-based women's transitional shelter in Niagara Falls, NY, providing a supportive bridge to independent housing and demonstrating the life-changing gospel of Jesus Christ.
 
 ## Overview
 
-This repository contains the frontend codebase for the MarandaJames Agency website. It is built using modern web technologies to ensure a fast, accessible, and responsive user experience.
+This repository contains the frontend codebase for the MarandaJames Elect LLC website. It is built using modern web technologies to ensure a fast, accessible, and responsive user experience.
 
 ### Key Features
 - **Accessibility First:** Fully compliant with WCAG guidelines, including ARIA attributes, keyboard navigation, and high color contrast.

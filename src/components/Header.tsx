@@ -27,10 +27,10 @@ export default function Header() {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-5 flex items-center justify-between gap-4 relative z-10">
           {/* Logo */}
-          <a href="#hero" className="flex items-center shrink-0" aria-label="MarandaJames Agency home">
+          <a href="#hero" className="flex items-center shrink-0" aria-label="MarandaJames Elect LLC home">
             <img
-              src="https://i.imgur.com/XRPl2IF.png"
-              alt="MarandaJames Agency Logo"
+              src="/logo.png"
+              alt="MarandaJames Elect LLC Logo"
               className="h-16 sm:h-20 w-auto object-contain"
               referrerPolicy="no-referrer"
             />

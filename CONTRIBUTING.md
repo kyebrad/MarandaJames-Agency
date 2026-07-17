@@ -1,6 +1,6 @@
-# Contributing to MarandaJames Agency
+# Contributing to MarandaJames Elect LLC
 
-First off, thank you for considering contributing to the MarandaJames Agency project! It's people like you that make this project such a great tool for helping women in need.
+First off, thank you for considering contributing to the MarandaJames Elect LLC project! It's people like you that make this project such a great tool for helping women in need.
 
 ## Code of Conduct
 
@@ -28,10 +28,10 @@ This section guides you through submitting an enhancement suggestion, including 
 
 The process described here has several goals:
 
-- Maintain MarandaJames Agency's quality
+- Maintain MarandaJames Elect LLC's quality
 - Fix problems that are important to users
 - Engage the community in working toward the best possible product
-- Enable a sustainable system for MarandaJames Agency's maintainers to review contributions
+- Enable a sustainable system for MarandaJames Elect LLC's maintainers to review contributions
 
 Please follow these steps to have your contribution considered by the maintainers:
 

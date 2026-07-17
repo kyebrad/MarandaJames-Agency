@@ -17,8 +17,8 @@ export default function Footer() {
           <div ref={(el) => { colsRef.current[0] = el; }} className="col-span-1 lg:col-span-2">
             <a href="#" aria-label="Home" className="mb-6 inline-block bg-white p-3 rounded-xl shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
               <img 
-                src="https://i.imgur.com/XRPl2IF.png" 
-                alt="MarandaJames Agency Logo" 
+                src="/logo.png"
+                alt="MarandaJames Elect LLC Logo"
                 className="h-20 w-auto object-contain"
                 referrerPolicy="no-referrer"
               />
@@ -71,7 +71,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-200">
-          <p>© {new Date().getFullYear()} MarandaJames Agency. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} MarandaJames Elect LLC. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-white transition-colors">Terms of Service</a>

@@ -186,7 +186,7 @@ export default function Hero() {
                   {activeModal === 'donate' && 'Your financial support helps us provide safe housing and essential services.'}
                   {activeModal === 'volunteer' && 'Join our community of volunteers making a difference every day.'}
                   {activeModal === 'items' && 'We accept clothing, non-perishable food, and hygiene products.'}
-                  {activeModal === 'involved' && 'Discover the many ways you can partner with MarandaJames Agency to make a lasting impact in our community.'}
+                  {activeModal === 'involved' && 'Discover the many ways you can partner with MarandaJames Elect LLC to make a lasting impact in our community.'}
                 </p>
                 
                 <form onSubmit={handleActionSubmit} className="space-y-4">

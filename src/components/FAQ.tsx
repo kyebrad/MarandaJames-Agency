@@ -4,7 +4,7 @@ import { revealOnScroll } from '../lib/motion';
 
 const faqs = [
   {
-    question: "Who is eligible for MarandaJames Agency services?",
+    question: "Who is eligible for MarandaJames Elect LLC services?",
     answer: "We serve women who are transitioning from crisis situations, including domestic violence, homelessness, or other hardships, seeking a safe place to start over and rebuild their lives."
   },
   {
@@ -24,7 +24,7 @@ const faqs = [
     answer: "Our program is designed to provide stability while you work towards independence. The length of stay varies based on individual needs, goals, and progress within the program."
   },
   {
-    question: "How can the community support the MarandaJames Agency?",
+    question: "How can the community support MarandaJames Elect LLC?",
     answer: "You can support our mission by making a financial donation, volunteering your time and skills, or donating essential items such as clothing, non-perishable food, and hygiene products."
   }
 ];

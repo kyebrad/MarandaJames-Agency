@@ -215,7 +215,7 @@ export default function Intake() {
                     Seek Shelter / Intake Pipeline
                   </h2>
                   <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                    To ensure the safety, privacy, and well-being of all our residents, admission to MarandaJames Agency is based on a secure and thorough intake process. We are here to help you take the first step toward stability.
+                    To ensure the safety, privacy, and well-being of all our residents, admission to MarandaJames Elect LLC is based on a secure and thorough intake process. We are here to help you take the first step toward stability.
                   </p>
                   
                   <div className="space-y-6 mb-10">
